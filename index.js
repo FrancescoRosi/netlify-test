@@ -1,22 +1,32 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-// Read the environment variable
-const atprotoContent = process.env.ATPROTO_CONTENT;
+const atprotoDID = process.env.ATPROTO_DID;
 
-if (!atprotoContent) {
-  console.error('ATPROTO_CONTENT environment variable is not set!');
-  process.exit(1);
-}
+if (!atprotoDID) {
+	console.error("couldn't find ATPROTO_DID!");
+	process.exit(1);
+};
 
-// Define the path to the .well-known directory
-const dirPath = path.join(__dirname, 'public', '.well-known');
-const filePath = path.join(dirPath, 'atproto');
+const wellKnownDirPath = path.join(__dirname, "public", ".well-known");
+const atprotoDIDFilePath = path.join(wellKnownDirPath, "atproto-did");
+const indexFilePath = path.join(__dirname, "public", "index.html");
 
-// Create the .well-known directory if it doesn't exist
-fs.mkdirSync(dirPath, { recursive: true });
+fs.mkdirSync(wellKnownDirPath, {
+	recursive: true
+});
 
-// Write the content to the atproto file
-fs.writeFileSync(filePath, atprotoContent);
+fs.writeFileSync(atprotoDIDFilePath, atprotoDID);
 
-console.log(`.well-known/atproto file created with content: ${atprotoContent}`);
+const indexContent = `
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="refresh" content="0; url=https://bsky.app/profile/${atprotoDID}">
+        <title>Redirecting...</title>
+    </head>
+</html>
+`;
+
+fs.writeFileSync(indexFilePath, indexContent);
