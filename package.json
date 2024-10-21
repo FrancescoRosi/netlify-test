@@ -1,5 +1,8 @@
 {
   "scripts": {
     "build": "node index.js"
-  }
+  },
+  "glitch": {
+    "projectType": "generated_static"
+  },
 }
