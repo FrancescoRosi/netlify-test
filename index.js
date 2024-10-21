@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Read the environment variable
-const atprotoContent = "test";
+const atprotoContent = process.env.ATPROTO_CONTENT;
 
 if (!atprotoContent) {
   console.error('ATPROTO_CONTENT environment variable is not set!');
